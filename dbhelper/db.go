@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/jinzhu/gorm"
 	_ "github.com/lib/pq"
+	"os"
 )
 
 var (
@@ -20,6 +21,7 @@ func init() {
 		"30532",
 		"frootlo")
 
+	url = os.Getenv("DATABASE_URL")
 	var err error
 	if Client, err = sql.Open("postgres", url); err != nil {
 		fmt.Println("Error in connection ", err)
@@ -34,13 +36,15 @@ func init() {
 }
 
 func GetDBConnection() (*gorm.DB, error) {
-	db, err := gorm.Open("postgres", fmt.Sprintf("sslmode=%v user=%v password=%v host=%v port=%v dbname=%v",
+	url := fmt.Sprintf("sslmode=%v user=%v password=%v host=%v port=%v dbname=%v",
 		"disable",
 		"postgres",
 		"postgres",
 		"localhost",
 		"30532",
-		"frootlo"))
+		"frootlo")
+	url = os.Getenv("DATABASE_URL")
+	db, err := gorm.Open("postgres", url)
 
 	if err != nil {
 		fmt.Println("Failed to create database connection. Error ", err)
