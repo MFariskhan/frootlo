@@ -1,6 +1,9 @@
 package app
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/gin-gonic/gin"
+	"os"
+)
 
 var (
 	router = gin.Default()
@@ -8,5 +11,7 @@ var (
 
 func StartApplication() {
 	mapUrls()
-	router.Run(":8081")
+	var port = os.Getenv("PORT")
+
+	router.Run(":" + port)
 }
